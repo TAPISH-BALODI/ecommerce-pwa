@@ -5,6 +5,15 @@ import { removeFromCart } from '../slices/cartSlice';
 
 const Cart = () => {
   const cart = useSelector(state => state.cart);
+  const getTotal=()=>{
+    let tempTotal=0
+    for(let i=0;i<cart.length;i++)
+      {
+          tempTotal+=cart[i].price
+      }
+      return tempTotal
+  }
+  const price=getTotal()
   const dispatch = useDispatch();
 
   return (
@@ -13,13 +22,14 @@ const Cart = () => {
       {cart.length === 0 ? (
         <p>Your cart is empty</p>
       ) : (
+        <>
         <ul>
           {cart.map(item => (
             <li key={item.id} className="border-b py-4 flex justify-between">
               <div>
                 <h2 className="text-xl font-bold">{item.title}</h2>
                 <p className="text-gray-700">
-                  ${item.price} x {item.quantity}
+                  ${item.price} x <span style={{fontWeight:'bold'}}>{item.quantity}</span>
                 </p>
               </div>
               <button
@@ -31,6 +41,13 @@ const Cart = () => {
             </li>
           ))}
         </ul>
+        <div style={{border:'1px solid grey',height:'1px'}}>
+           
+        </div>
+        <ul>
+       <li style={{fontSize:'20px',fontWeight:'bold'}}>${price}</li> 
+      </ul>
+      </>
       )}
     </div>
   );
